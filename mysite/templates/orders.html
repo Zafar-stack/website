@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+<h1>Orders</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>TIME</th>
+        <th>PRICE</th>
+        <th>LINK</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{order.id}}</td>
+        <td>{{order.last_name}}</td>
+        <td>{{order.price}}</td>
+        <td><a href="/order/{{order.id}}">Get more</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endif %}
+</body>
+</html>

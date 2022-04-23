@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% block container %}
+
+{% load tags_library %}
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="breadcrumb-tree">
+							<li><a href="/">Home</a></li>
+
+							{% if active_category %}
+							<li><a href="/store">All Categories</a></li>
+							<li class="active">{{ active_category.title }}</li>
+							{% else %}
+							<li><a href="/store">All Categories</a></li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+
+
+
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- ASIDE -->
+					<div id="aside" class="col-md-3">
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Categories</h3>
+							<div class="checkbox-filter">
+
+								{% for cat in categories %}
+								<div class="input-checkbox">
+									<input type="checkbox" {% if active_category.id == cat.id %} checked="checked" {% endif %} id="category-{{ cat.id }}">
+									<label for="category-{{ cat.id }}">
+										<span></span>
+										{{ cat.title }}
+										<small>({{ total }})</small>
+									</label>
+								</div>
+								{% endfor %}
+
+
+							</div>
+						</div>
+						<!-- /aside Widget -->
+
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Price</h3>
+							<div class="price-filter">
+								<div id="price-slider"></div>
+								<div class="input-number price-min">
+									<input id="price-min" type="number">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+								<span>-</span>
+								<div class="input-number price-max">
+									<input id="price-max" type="number">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+							</div>
+						</div>
+						<!-- /aside Widget -->
+
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Brand</h3>
+							<div class="checkbox-filter">
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-1">
+									<label for="brand-1">
+										<span></span>
+										SAMSUNG
+										<small>(578)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-2">
+									<label for="brand-2">
+										<span></span>
+										LG
+										<small>(125)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-3">
+									<label for="brand-3">
+										<span></span>
+										SONY
+										<small>(755)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-4">
+									<label for="brand-4">
+										<span></span>
+										SAMSUNG
+										<small>(578)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-5">
+									<label for="brand-5">
+										<span></span>
+										LG
+										<small>(125)</small>
+									</label>
+								</div>
+								<div class="input-checkbox">
+									<input type="checkbox" id="brand-6">
+									<label for="brand-6">
+										<span></span>
+										SONY
+										<small>(755)</small>
+									</label>
+								</div>
+							</div>
+						</div>
+						<!-- /aside Widget -->
+
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Top selling</h3>
+							{% for pro in is_best_saler %}
+							<div class="product-widget">
+								<div class="product-img">
+									<img src="/media/{{ pro.logo }}" alt="">
+								</div>
+								<div class="product-body">
+									<p class="product-category">{{ pro.category.title }}</p>
+									<h3 class="product-name"><a href="#">{{ pro.title }}</a></h3>
+									<h4 class="product-price">${{ pro.new_price }} <del class="product-old-price">${{ pro.old_price }}</del></h4>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+						<!-- /aside Widget -->
+					</div>
+					<!-- /ASIDE -->
+
+					<!-- STORE -->
+					<div id="store" class="col-md-9">
+						<!-- store top filter -->
+						<div class="store-filter clearfix">
+							<div class="store-sort">
+								<label>
+									Sort By:
+									<select class="input-select">
+										<option value="0">Popular</option>
+										<option value="1">Position</option>
+									</select>
+								</label>
+
+								<label>
+									Show:
+									<select class="input-select">
+										<option value="0">20</option>
+										<option value="1">50</option>
+									</select>
+								</label>
+
+								<label>
+									<span class="store-qty">Showing <b>{{ total }}</b> products</span>
+								</label>
+
+							</div>
+							<ul class="store-grid">
+								<li class="active"><i class="fa fa-th"></i></li>
+								<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+							</ul>
+						</div>
+						<!-- /store top filter -->
+
+						<!-- store products -->
+						<div class="row">
+							{% for product in products %}
+							<!-- product -->
+							<div class="col-md-4 col-xs-6">
+								<div class="product">
+									<div class="product-img">
+										<img src="/media/{{product.logo}}" alt="">
+										<div class="product-label">
+											{% if product.discount > 0 %}<span class="sale">-{{product.discount}}%</span>{% endif %}
+											{% if product.is_new == True %}<span class="new">NEW</span>{% endif %}
+										</div>
+									</div>
+									<div class="product-body">
+										<p class="product-category">{{product.category}}</p>
+										<h3 class="product-name"><a href="/store/{{product.id}}">{{product.title}}</a></h3>
+										<h4 class="product-price">${{product.new_price}} <del class="product-old-price">{% if product.old_price > 0  %}${{ product.old_price }}{% endif %}</del></h4>
+										<p class="product-category">{{ product.date|lifespan  }}</p>
+										<div class="product-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+										</div>
+									</div>
+									<div class="js-container add-to-cart">
+                                        <input type="hidden" name="amount" value="1">
+                                        <input type="hidden" name="product_id" value="{{ product.id }}">
+										<button class="js-add-to-cart add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+							{% endfor %}
+						</div>
+						<br>
+						<br>
+
+						<!-- /store products -->
+
+						<!-- store bottom filter -->
+
+						<div class="store-filter clearfix">
+							<ul class="store-pagination">
+								{% if prev_page > 0 %}
+								<li>
+									<a href="/store/?page={{ prev_page}}&limit={{ limit }}{% if search_value %}&search={{ search_value }}{% endif %}{% if category_id %}&category_id={{ category_id }}{% endif %}">
+										<i class="fa fa-angle-left"></i>
+									</a>
+								</li>
+								{% endif %}
+
+								{% for i in pages %}
+								<li class="{% if current_page == i %} active {% endif %}"><a href="/store?page={{ i }}&limit={{ limit }}{% if search_value %}&search={{ search_value }}{% endif %}{% if category_id %}&category_id={{ category_id }}{% endif %}">{{ i }}</a></li>
+								{% endfor %}
+
+								{% if next_page > 0 %}
+								<li>
+									<a href="/store/?page={{ prev_page}}&limit={{ limit }}{% if search_value %}&search={{ search_value }}{% endif %}{% if category_id %}&category_id={{ category_id }}{% endif %}">
+										<i class="fa fa-angle-right"></i>
+									</a>
+								</li>
+								{% endif %}
+							</ul>
+						</div>
+						<!-- /store bottom filter -->
+					</div>
+					<!-- /STORE -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+	{% endblock %}

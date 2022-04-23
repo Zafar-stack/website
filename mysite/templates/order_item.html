@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+
+<h1>Order items</h1>
+
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Price</th>
+    </tr>
+    {% for or in order_items %}
+    <tr>
+        <td>{{or.name}}</td>
+        <td>{{or.amount}}</td>
+        <td>{{or.product_price}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endif %}
+
+</body>
+</html>
